@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/assets/favicon.ico" />  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/style.css" type="text/css">
+
+    <title>Blog of Carlos Sanchez - Jekyll cheat sheet</title>
+  </head>
+  <body><nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <blockquote class="blockquote">Blog of Carlos Sanchez</blockquote>
+      <figcaption class="blockquote-footer">
+        <em>Sharing my learnings.</em>
+      </figcaption>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/">Posts</a>
+        <a class="nav-link" href="/archive/">Archive</a>
+        <a class="nav-link" href="/about/">About</a>
+      </div>
+    </div>
+  </div>
+</nav><div class="container">
+      <h2 class="text-center">Jekyll cheat sheet</h2>
+      
+      <p class="small text-center"><em>2021/01/24</em></p>
+      
+    </div>
+
+    <hr />
+
+    <div class="container">
+      <p>
+  <a class="btn btn-primary" href="javascript: window.history.back()">Go back</a>
+</p>
+
+
+
+<p>Some quick tips and tricks I’ve learned about Jekyll.</p>
+
+<h3 id="jekyll-v4-configuration">jekyll v4 configuration</h3>
+
+<ul>
+  <li>The files inside the <code class="language-plaintext highlighter-rouge">_posts</code> folder must have the following format:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  yyyy-mm-dd-name-with-dashes.md
+</code></pre></div>    </div>
+    <p>Note: Do not use underscore or they are not detected.</p>
+  </li>
+  <li>Changes in <code class="language-plaintext highlighter-rouge">_config.yml</code> need the <code class="language-plaintext highlighter-rouge">jekyll serve</code> process to be stopped and restarted.</li>
+  <li>Changes in <code class="language-plaintext highlighter-rouge">*.html</code> or <code class="language-plaintext highlighter-rouge">*.md</code> files don’t need restarting - they get automatically detected and reloaded.</li>
+  <li>At the time of creating this post, the GitHub docker container requires bundler:2.1.4 installed. Make sure you configure your Gemfiles using that version, of the CI will fail.</li>
+  <li>Dependencies are installed into gem using <code class="language-plaintext highlighter-rouge">gem install &lt;packageName&gt;</code> and then <code class="language-plaintext highlighter-rouge">bundler add &lt;packageName&gt;</code> includes it in your project’s Gemfile.</li>
+  <li>To autoreload the browser tab showing your blog, without having to kill the server, run:
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gem uninstall eventmachine
+gem install eventmachine --platform ruby
+</code></pre></div>    </div>
+  </li>
+  <li>Use this command to turn on the web server: <code class="language-plaintext highlighter-rouge">jekyll serve --livereload --incremental</code></li>
+</ul>
+
+<h3 id="jekyll-paginate-v2">jekyll-paginate-v2</h3>
+
+<ul>
+  <li>Expects to see <code class="language-plaintext highlighter-rouge">index.md</code> with the front matter:
+    <div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">pagination</span><span class="pi">:</span>
+    <span class="na">enabled</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div>    </div>
+  </li>
+  <li>The <code class="language-plaintext highlighter-rouge">Gemfile</code> needs to indicate the plugin inside the <code class="language-plaintext highlighter-rouge">:jekyll_plugins</code> group loop:
+    <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">group</span> <span class="ss">:jekyll_plugins</span> <span class="k">do</span>
+    <span class="n">gem</span> <span class="s2">"jekyll-paginate-v2"</span><span class="p">,</span> <span class="s2">"&gt;= 3.0"</span>
+    <span class="n">gem</span> <span class="s2">"jekyll-feed"</span>
+  <span class="k">end</span>
+</code></pre></div>    </div>
+  </li>
+  <li>The <code class="language-plaintext highlighter-rouge">_config.yml</code> file needs to enable the plugin with at least these options:
+    <div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">plugins</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">jekyll-paginate-v2</span>
+
+  <span class="na">pagination</span><span class="pi">:</span>
+    <span class="na">enabled</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div>    </div>
+  </li>
+  <li>To see pagination verbose info when serving jekyll, enable debugging:
+    <div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="na">pagination</span><span class="pi">:</span>
+    <span class="na">debug</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="resources">Resources</h2>
+
+<p>Some useful resources I found when learning how to configure this blog:</p>
+
+<ul>
+  <li><a href="https://www.kiltandcode.com/2020/04/30/how-to-create-a-blog-using-jekyll-and-github-pages-on-windows/">How to Create a Blog Using Jekyll and GitHub Pages on Windows</a></li>
+  <li><a href="https://simpleit.rocks/ruby/jekyll/">Supported syntax highlighting in Jekyll pages</a></li>
+  <li><a href="http://jekyllthemes.org/">Jekyll themes</a></li>
+  <li><a href="https://dev-yakuza.posstree.com/en/jekyll/pagination-plugin/">How to install jekyll-paginate-v2</a></li>
+  <li><a href="https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md">How to configure jekyll-paginate-v2</a></li>
+</ul>
+
+
+
+    </div>
+    
+    <hr /><div class="container">
+  <ul class="nav justify-content-center">
+    <li class="nav-item">
+      <a class="nav-link" target="_blank" href="https://github.com/carlossanlop">GitHub</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" target="_blank" href="https://twitter.com/foo_fighter">Twitter</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" target="_blank" href="https://www.linkedin.com/in/carlos-s-3634b228/">LinkedIn</a>
+    </li>
+  </ul>
+</div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  </body>
+</html>

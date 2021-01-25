@@ -1,74 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2021-01-24T22:25:35-08:00</updated><id>/feed.xml</id><title type="html">Blog of Carlos Sanchez</title><subtitle>Sharing my learnings.</subtitle><entry><title type="html">Jekyll cheat sheet</title><link href="/2021/01/24/jekyll" rel="alternate" type="text/html" title="Jekyll cheat sheet" /><published>2021-01-24T16:34:00-08:00</published><updated>2021-01-24T16:34:00-08:00</updated><id>/2021/01/24/jekyll</id><content type="html" xml:base="/2021/01/24/jekyll">Some quick tips and tricks I've learned about Jekyll.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2021-01-24T23:22:25-08:00</updated><id>/feed.xml</id><title type="html">Blog of Carlos Sanchez</title><subtitle>Sharing my learnings.</subtitle><entry><title type="html">Jekyll cheat sheet</title><link href="/2021/01/24/jekyll" rel="alternate" type="text/html" title="Jekyll cheat sheet" /><published>2021-01-24T16:34:00-08:00</published><updated>2021-01-24T16:34:00-08:00</updated><id>/2021/01/24/jekyll</id><content type="html" xml:base="/2021/01/24/jekyll">&lt;p&gt;Some quick tips and tricks I’ve learned about Jekyll.&lt;/p&gt;
 
-### jekyll v4 configuration
+&lt;h3 id=&quot;jekyll-v4-configuration&quot;&gt;jekyll v4 configuration&lt;/h3&gt;
 
-- The files inside the `_posts` folder must have the following format:
-  ```
-    yyyy-mm-dd-name-with-dashes.md
-  ```
-  Note: Do not use underscore or they are not detected.
-- Changes in `_config.yml` need the `jekyll serve` process to be stopped and restarted.
-- Changes in `*.html` or `*.md` files don't need restarting - they get automatically detected and reloaded.
-- At the time of creating this post, the GitHub docker container requires bundler:2.1.4 installed. Make sure you configure your Gemfiles using that version, of the CI will fail.
-- Dependencies are installed into gem using `gem install &lt;packageName&gt;` and then `bundler add &lt;packageName&gt;` includes it in your project's Gemfile.
-- To autoreload the browser tab showing your blog, without having to kill the server, run:
-  ```
-  gem uninstall eventmachine
-  gem install eventmachine --platform ruby
-  ```
-- Use this command to turn on the web server: `jekyll serve --livereload --incremental`
+&lt;ul&gt;
+  &lt;li&gt;The files inside the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_posts&lt;/code&gt; folder must have the following format:
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  yyyy-mm-dd-name-with-dashes.md
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+    &lt;p&gt;Note: Do not use underscore or they are not detected.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Changes in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; need the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve&lt;/code&gt; process to be stopped and restarted.&lt;/li&gt;
+  &lt;li&gt;Changes in &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*.html&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*.md&lt;/code&gt; files don’t need restarting - they get automatically detected and reloaded.&lt;/li&gt;
+  &lt;li&gt;At the time of creating this post, the GitHub docker container requires bundler:2.1.4 installed. Make sure you configure your Gemfiles using that version, of the CI will fail.&lt;/li&gt;
+  &lt;li&gt;Dependencies are installed into gem using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;gem install &amp;lt;packageName&amp;gt;&lt;/code&gt; and then &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;bundler add &amp;lt;packageName&amp;gt;&lt;/code&gt; includes it in your project’s Gemfile.&lt;/li&gt;
+  &lt;li&gt;To autoreload the browser tab showing your blog, without having to kill the server, run:
+    &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem uninstall eventmachine
+gem install eventmachine --platform ruby
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Use this command to turn on the web server: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jekyll serve --livereload --incremental&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
-### jekyll-paginate-v2
+&lt;h3 id=&quot;jekyll-paginate-v2&quot;&gt;jekyll-paginate-v2&lt;/h3&gt;
 
-- Expects to see `index.md` with the front matter:
-  ```yml
-    pagination:
-      enabled: true
-  ```
-- The `Gemfile` needs to indicate the plugin inside the `:jekyll_plugins` group loop:
-  ```ruby
-    group :jekyll_plugins do
-      gem &quot;jekyll-paginate-v2&quot;, &quot;&gt;= 3.0&quot;
-      gem &quot;jekyll-feed&quot;
-    end
-  ```
-- The `_config.yml` file needs to enable the plugin with at least these options:
-  ```yml
-    plugins:
-      - jekyll-paginate-v2
+&lt;ul&gt;
+  &lt;li&gt;Expects to see &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;index.md&lt;/code&gt; with the front matter:
+    &lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;na&quot;&gt;pagination&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;enabled&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt; needs to indicate the plugin inside the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;:jekyll_plugins&lt;/code&gt; group loop:
+    &lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;n&quot;&gt;group&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;:jekyll_plugins&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;jekyll-paginate-v2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;gt;= 3.0&quot;&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;gem&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;jekyll-feed&quot;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;The &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt; file needs to enable the plugin with at least these options:
+    &lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;na&quot;&gt;plugins&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;jekyll-paginate-v2&lt;/span&gt;
 
-    pagination:
-      enabled: true
-  ```
-- To see pagination verbose info when serving jekyll, enable debugging:
-  ```yml
-    pagination:
-      debug: true
-  ```
+  &lt;span class=&quot;na&quot;&gt;pagination&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;enabled&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+  &lt;li&gt;To see pagination verbose info when serving jekyll, enable debugging:
+    &lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;  &lt;span class=&quot;na&quot;&gt;pagination&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;debug&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;    &lt;/div&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
+&lt;h2 id=&quot;resources&quot;&gt;Resources&lt;/h2&gt;
 
-## Resources
+&lt;p&gt;Some useful resources I found when learning how to configure this blog:&lt;/p&gt;
 
-Some useful resources I found when learning how to configure this blog:
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://www.kiltandcode.com/2020/04/30/how-to-create-a-blog-using-jekyll-and-github-pages-on-windows/&quot;&gt;How to Create a Blog Using Jekyll and GitHub Pages on Windows&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://simpleit.rocks/ruby/jekyll/&quot;&gt;Supported syntax highlighting in Jekyll pages&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;http://jekyllthemes.org/&quot;&gt;Jekyll themes&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://dev-yakuza.posstree.com/en/jekyll/pagination-plugin/&quot;&gt;How to install jekyll-paginate-v2&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md&quot;&gt;How to configure jekyll-paginate-v2&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><author><name></name></author><category term="all" /><summary type="html">Some quick tips and tricks I’ve learned about Jekyll.</summary></entry><entry><title type="html">Starting a GUI program when Rasbperry Pi boots</title><link href="/2021/01/24/rpiboot" rel="alternate" type="text/html" title="Starting a GUI program when Rasbperry Pi boots" /><published>2021-01-24T16:26:00-08:00</published><updated>2021-01-24T16:26:00-08:00</updated><id>/2021/01/24/rpiboot</id><content type="html" xml:base="/2021/01/24/rpiboot">&lt;p&gt;To automatically open a GUI program when you boot your Raspberry PI running LXDE, the only way that works as of January 2021 is to add a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;*.desktop&lt;/code&gt; file inside the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/home/pi/.config/autostart/&lt;/code&gt; folder.&lt;/p&gt;
 
-- [How to Create a Blog Using Jekyll and GitHub Pages on Windows](https://www.kiltandcode.com/2020/04/30/how-to-create-a-blog-using-jekyll-and-github-pages-on-windows/)
-- [Supported syntax highlighting in Jekyll pages](https://simpleit.rocks/ruby/jekyll/)
-- [Jekyll themes](http://jekyllthemes.org/)
-- [How to install jekyll-paginate-v2](https://dev-yakuza.posstree.com/en/jekyll/pagination-plugin/)
-- [How to configure jekyll-paginate-v2](https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md)</content><author><name></name></author><category term="all" /><summary type="html">Some quick tips and tricks I’ve learned about Jekyll.</summary></entry><entry><title type="html">Starting a GUI program when Rasbperry Pi boots</title><link href="/2021/01/24/rpiboot" rel="alternate" type="text/html" title="Starting a GUI program when Rasbperry Pi boots" /><published>2021-01-24T16:26:00-08:00</published><updated>2021-01-24T16:26:00-08:00</updated><id>/2021/01/24/rpiboot</id><content type="html" xml:base="/2021/01/24/rpiboot">To automatically open a GUI program when you boot your Raspberry PI running LXDE, the only way that works as of January 2021 is to add a `*.desktop` file inside the `/home/pi/.config/autostart/` folder.
+&lt;p&gt;In my case, I needed to run a .NET 5.0 server app I wrote, and I needed it to run inside a terminal window so the server output was easily visible when connecting via VNC. So I created the file &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/home/pi/.config/autostart/MyServerName.desktop&lt;/code&gt; and added the following lines:&lt;/p&gt;
 
-In my case, I needed to run a .NET 5.0 server app I wrote, and I needed it to run inside a terminal window so the server output was easily visible when connecting via VNC. So I created the file `/home/pi/.config/autostart/MyServerName.desktop` and added the following lines:
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ini&quot; data-lang=&quot;ini&quot;&gt;&lt;span class=&quot;nn&quot;&gt;[Desktop Entry]&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;Type&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Application&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;Name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;My .NET 5.0 server autostart&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;Comment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Start the .NET 5.0 server in a visible LXDE terminal window on boot&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;NoDisplay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;false&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;Exec&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/usr/bin/lxterminal --command=&quot;/home/pi/MyServer/Program -some arguments&quot; --working-directory=/home/pi/MyServer&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;NotShowIn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;GNOME;KDE;XFCE;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-{% highlight ini %}
-[Desktop Entry]
-Type=Application
-Name=My .NET 5.0 server autostart
-Comment=Start the .NET 5.0 server in a visible LXDE terminal window on boot
-NoDisplay=false
-Exec=/usr/bin/lxterminal --command=&quot;/home/pi/MyServer/Program -some arguments&quot; --working-directory=/home/pi/MyServer
-NotShowIn=GNOME;KDE;XFCE;
-{% endhighlight %}
+&lt;p&gt;Rebooted, and the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;lxterminal&lt;/code&gt; window opened as soon as the pi user logged in.&lt;/p&gt;
 
-Rebooted, and the `lxterminal` window opened as soon as the pi user logged in.
-
-There is a huge number of StackOverflow answers and blog tutorials saying that adding entries to the files `/home/pi/.config/lxsession/LXDE-pi/autostart` or `/etc/xdg/lxsession/LXDE-pi/autostart`. Unfortunately, they are all wrong, and there is very little up-to-date information showing what works and what doesn't.</content><author><name></name></author><category term="all" /><summary type="html">To automatically open a GUI program when you boot your Raspberry PI running LXDE, the only way that works as of January 2021 is to add a *.desktop file inside the /home/pi/.config/autostart/ folder.</summary></entry><entry><title type="html">Test1</title><link href="/2021/01/24/test1" rel="alternate" type="text/html" title="Test1" /><published>2021-01-24T14:53:00-08:00</published><updated>2021-01-24T14:53:00-08:00</updated><id>/2021/01/24/test1</id><content type="html" xml:base="/2021/01/24/test1">This post is testing that the optional picture shows in the paginator and in the post itself.</content><author><name></name></author><category term="all" /><summary type="html">This post is testing that the optional picture shows in the paginator and in the post itself.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/assets/img/margarito.jpg" /><media:content medium="image" url="/assets/img/margarito.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;There is a huge number of StackOverflow answers and blog tutorials saying that adding entries to the files &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/home/pi/.config/lxsession/LXDE-pi/autostart&lt;/code&gt; or &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/xdg/lxsession/LXDE-pi/autostart&lt;/code&gt;. Unfortunately, they are all wrong, and there is very little up-to-date information showing what works and what doesn’t.&lt;/p&gt;</content><author><name></name></author><category term="all" /><summary type="html">To automatically open a GUI program when you boot your Raspberry PI running LXDE, the only way that works as of January 2021 is to add a *.desktop file inside the /home/pi/.config/autostart/ folder.</summary></entry><entry><title type="html">Test1</title><link href="/2021/01/24/test1" rel="alternate" type="text/html" title="Test1" /><published>2021-01-24T14:53:00-08:00</published><updated>2021-01-24T14:53:00-08:00</updated><id>/2021/01/24/test1</id><content type="html" xml:base="/2021/01/24/test1">&lt;p&gt;This post is testing that the optional picture shows in the paginator and in the post itself.&lt;/p&gt;</content><author><name></name></author><category term="all" /><summary type="html">This post is testing that the optional picture shows in the paginator and in the post itself.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/assets/img/margarito.jpg" /><media:content medium="image" url="/assets/img/margarito.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

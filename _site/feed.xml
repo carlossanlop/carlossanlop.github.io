@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" /><updated>2021-01-24T22:25:35-08:00</updated><id>/feed.xml</id><title type="html">Blog of Carlos Sanchez</title><subtitle>Sharing my learnings.</subtitle><entry><title type="html">Jekyll cheat sheet</title><link href="/2021/01/24/jekyll" rel="alternate" type="text/html" title="Jekyll cheat sheet" /><published>2021-01-24T16:34:00-08:00</published><updated>2021-01-24T16:34:00-08:00</updated><id>/2021/01/24/jekyll</id><content type="html" xml:base="/2021/01/24/jekyll">Some quick tips and tricks I've learned about Jekyll.
+
+### jekyll v4 configuration
+
+- The files inside the `_posts` folder must have the following format:
+  ```
+    yyyy-mm-dd-name-with-dashes.md
+  ```
+  Note: Do not use underscore or they are not detected.
+- Changes in `_config.yml` need the `jekyll serve` process to be stopped and restarted.
+- Changes in `*.html` or `*.md` files don't need restarting - they get automatically detected and reloaded.
+- At the time of creating this post, the GitHub docker container requires bundler:2.1.4 installed. Make sure you configure your Gemfiles using that version, of the CI will fail.
+- Dependencies are installed into gem using `gem install &lt;packageName&gt;` and then `bundler add &lt;packageName&gt;` includes it in your project's Gemfile.
+- To autoreload the browser tab showing your blog, without having to kill the server, run:
+  ```
+  gem uninstall eventmachine
+  gem install eventmachine --platform ruby
+  ```
+- Use this command to turn on the web server: `jekyll serve --livereload --incremental`
+
+### jekyll-paginate-v2
+
+- Expects to see `index.md` with the front matter:
+  ```yml
+    pagination:
+      enabled: true
+  ```
+- The `Gemfile` needs to indicate the plugin inside the `:jekyll_plugins` group loop:
+  ```ruby
+    group :jekyll_plugins do
+      gem &quot;jekyll-paginate-v2&quot;, &quot;&gt;= 3.0&quot;
+      gem &quot;jekyll-feed&quot;
+    end
+  ```
+- The `_config.yml` file needs to enable the plugin with at least these options:
+  ```yml
+    plugins:
+      - jekyll-paginate-v2
+
+    pagination:
+      enabled: true
+  ```
+- To see pagination verbose info when serving jekyll, enable debugging:
+  ```yml
+    pagination:
+      debug: true
+  ```
+
+
+## Resources
+
+Some useful resources I found when learning how to configure this blog:
+
+- [How to Create a Blog Using Jekyll and GitHub Pages on Windows](https://www.kiltandcode.com/2020/04/30/how-to-create-a-blog-using-jekyll-and-github-pages-on-windows/)
+- [Supported syntax highlighting in Jekyll pages](https://simpleit.rocks/ruby/jekyll/)
+- [Jekyll themes](http://jekyllthemes.org/)
+- [How to install jekyll-paginate-v2](https://dev-yakuza.posstree.com/en/jekyll/pagination-plugin/)
+- [How to configure jekyll-paginate-v2](https://github.com/sverrirs/jekyll-paginate-v2/blob/master/README-GENERATOR.md)</content><author><name></name></author><category term="all" /><summary type="html">Some quick tips and tricks I’ve learned about Jekyll.</summary></entry><entry><title type="html">Starting a GUI program when Rasbperry Pi boots</title><link href="/2021/01/24/rpiboot" rel="alternate" type="text/html" title="Starting a GUI program when Rasbperry Pi boots" /><published>2021-01-24T16:26:00-08:00</published><updated>2021-01-24T16:26:00-08:00</updated><id>/2021/01/24/rpiboot</id><content type="html" xml:base="/2021/01/24/rpiboot">To automatically open a GUI program when you boot your Raspberry PI running LXDE, the only way that works as of January 2021 is to add a `*.desktop` file inside the `/home/pi/.config/autostart/` folder.
+
+In my case, I needed to run a .NET 5.0 server app I wrote, and I needed it to run inside a terminal window so the server output was easily visible when connecting via VNC. So I created the file `/home/pi/.config/autostart/MyServerName.desktop` and added the following lines:
+
+{% highlight ini %}
+[Desktop Entry]
+Type=Application
+Name=My .NET 5.0 server autostart
+Comment=Start the .NET 5.0 server in a visible LXDE terminal window on boot
+NoDisplay=false
+Exec=/usr/bin/lxterminal --command=&quot;/home/pi/MyServer/Program -some arguments&quot; --working-directory=/home/pi/MyServer
+NotShowIn=GNOME;KDE;XFCE;
+{% endhighlight %}
+
+Rebooted, and the `lxterminal` window opened as soon as the pi user logged in.
+
+There is a huge number of StackOverflow answers and blog tutorials saying that adding entries to the files `/home/pi/.config/lxsession/LXDE-pi/autostart` or `/etc/xdg/lxsession/LXDE-pi/autostart`. Unfortunately, they are all wrong, and there is very little up-to-date information showing what works and what doesn't.</content><author><name></name></author><category term="all" /><summary type="html">To automatically open a GUI program when you boot your Raspberry PI running LXDE, the only way that works as of January 2021 is to add a *.desktop file inside the /home/pi/.config/autostart/ folder.</summary></entry><entry><title type="html">Test1</title><link href="/2021/01/24/test1" rel="alternate" type="text/html" title="Test1" /><published>2021-01-24T14:53:00-08:00</published><updated>2021-01-24T14:53:00-08:00</updated><id>/2021/01/24/test1</id><content type="html" xml:base="/2021/01/24/test1">This post is testing that the optional picture shows in the paginator and in the post itself.</content><author><name></name></author><category term="all" /><summary type="html">This post is testing that the optional picture shows in the paginator and in the post itself.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="/assets/img/margarito.jpg" /><media:content medium="image" url="/assets/img/margarito.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

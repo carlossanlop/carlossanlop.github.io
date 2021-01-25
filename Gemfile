@@ -1,15 +1,13 @@
 
 source "https://rubygems.org"
 
-gem 'jekyll'
+gem "bundler"
+gem "concurrent-ruby"
 gem "eventmachine"
 gem "ffi"
-
-group :jekyll_plugins do
-  gem "concurrent-ruby"
-  gem "jekyll-paginate-v2"
-  gem "jekyll-feed"
-  gem "webrick"
-end
+gem "jekyll-feed"
+gem "jekyll-paginate"
+gem "jekyll"
+gem "webrick"
 
 gem 'wdm' if Gem.win_platform?

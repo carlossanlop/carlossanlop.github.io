@@ -64,9 +64,13 @@ gem install eventmachine --platform ruby
 </code></pre></div>    </div>
   </li>
   <li>Use this command to turn on the web server: <code class="language-plaintext highlighter-rouge">jekyll serve --livereload --incremental</code></li>
+  <li>It’s better to develop and upload your site from Linux than Windows, because GitHub Pages use an Ubuntu docker container.</li>
+  <li><code class="language-plaintext highlighter-rouge">jekyll-paginate-v2</code> is not supported by GitHub Pages. Use <a href="https://jekyllrb.com/docs/pagination/">v1 instead</a> which is not being actively developed or maintained, but at least works.</li>
 </ul>
 
 <h3 id="jekyll-paginate-v2">jekyll-paginate-v2</h3>
+
+<p>No point in trying to make this work because it is not supported by GitHub Pages. But here is what I learned about it, in case it ever gets support:</p>
 
 <ul>
   <li>Expects to see <code class="language-plaintext highlighter-rouge">index.md</code> with the front matter:

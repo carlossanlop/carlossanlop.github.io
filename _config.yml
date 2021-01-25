@@ -13,17 +13,12 @@ kramdown:
   syntax_highlighter: rouge
 
 plugins:
-  - jekyll-paginate-v2
+  - jekyll-paginate
 
 permalink: /:year/:month/:day/:title
 
-pagination:
-  enabled: true
-  debug: true
-  per_page: 2
-  permalink: '/:num/'
-  title: ':title'
-  sort_reverse: true
+paginate: 2
+paginate_path: '/:num/'
 
 sass:
     style: :compressed

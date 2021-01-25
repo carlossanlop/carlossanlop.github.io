@@ -23,6 +23,7 @@ pagination:
   per_page: 2
   permalink: '/:num/'
   title: ':title'
+  sort_reverse: true
 
 sass:
     style: :compressed

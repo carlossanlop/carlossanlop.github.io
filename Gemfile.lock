@@ -66,6 +66,7 @@ PLATFORMS
   x64-mingw32
 
 DEPENDENCIES
+  bundler (~> 2.2)
   eventmachine (~> 1.2)
   ffi (~> 1.14)
   jekyll (~> 4.2)

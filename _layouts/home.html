@@ -1,0 +1,32 @@
+---
+layout: default
+---
+
+{%- include pagination.html -%}
+
+<style>
+  div.card:hover { cursor:pointer; background-color:#DDD; }
+</style>
+
+<div class="row g-3">
+  {% for post in paginator.posts %}
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
+
+      <div class="card h-100" onclick="window.location.href='{{ site.url }}{{ post.url }}'">
+        {% if post.image %}
+        <p class="text-center">
+          <img src="{{ site.url }}{{ post.image }}" class="card-img-top"
+          style="max-width: 250px;" alt="{{ post.title }}">
+        </p>
+        {% endif %}
+        <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="small"><em>{{ post.date | date: "%Y/%m/%d" }}</em></p>
+          <p class="card-text">{{ post.summary }}</p>
+        </div>
+      </div>
+
+    </div>
+  {% endfor %}
+</div>
+

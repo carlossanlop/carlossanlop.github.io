@@ -1,0 +1,16 @@
+---
+layout: default
+---
+
+<p>
+  <a class="btn btn-primary" href="javascript: window.history.back()">Go back</a>
+</p>
+
+{% if page.image %}
+<p class="text-center">
+  <img src="{{ site.url }}{{ page.image }}" class="card-img-top" style="max-width:250px;" alt="{{ page.title }}">
+</p>
+{% endif %}
+
+{{ content }}
+

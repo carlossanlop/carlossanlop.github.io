@@ -1,4 +1,5 @@
 GEM
+  remote: https://rubygems.org/
   specs:
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
@@ -28,6 +29,8 @@ GEM
       rouge (~> 3.0)
       safe_yaml (~> 1.0)
       terminal-table (~> 2.0)
+    jekyll-feed (0.15.1)
+      jekyll (>= 3.7, < 5.0)
     jekyll-paginate-v2 (3.0.0)
       jekyll (>= 3.0, < 5.0)
     jekyll-sass-converter (2.1.0)
@@ -49,7 +52,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    rexml (3.2.3)
+    rexml (3.2.4)
     rouge (3.26.0)
     safe_yaml (1.0.5)
     sassc (2.4.0)
@@ -57,12 +60,19 @@ GEM
     terminal-table (2.0.0)
       unicode-display_width (~> 1.1, >= 1.1.1)
     unicode-display_width (1.7.0)
+    webrick (1.7.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  jekyll-paginate-v2 (~> 3.0)
+  concurrent-ruby
+  eventmachine
+  ffi
+  jekyll
+  jekyll-feed
+  jekyll-paginate-v2
+  webrick
 
 BUNDLED WITH
    2.1.2

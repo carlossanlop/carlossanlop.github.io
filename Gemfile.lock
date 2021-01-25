@@ -67,7 +67,7 @@ PLATFORMS
 
 DEPENDENCIES
   eventmachine (~> 1.2)
-  ffi (>= 1.14)
+  ffi (>= 1.14.2)
   jekyll (~> 4.2)
   jekyll-feed
   jekyll-paginate-v2 (>= 3.0)

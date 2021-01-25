@@ -1,4 +1,4 @@
-gem "bundler", "~> 2.2"
+gem "bundler", "~> 2.1.4"
 gem "jekyll", "~> 4.2"
 gem "webrick", "~> 1.7"
 gem "eventmachine", "~> 1.2"
@@ -10,4 +10,3 @@ group :jekyll_plugins do
 end
 
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
-

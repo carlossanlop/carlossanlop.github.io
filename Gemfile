@@ -12,4 +12,4 @@ end
 
 
 gem 'wdm', '>= 0.1.0' if Gem.win_platform?
-gem "ffi", ">= 1.14.2"
+gem "ffi", "~> 1.14"

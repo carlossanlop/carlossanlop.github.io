@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <blockquote class="blockquote">{{ site.title }}</blockquote>
+      <figcaption class="blockquote-footer">
+        <em>{{ site.description }}</em>
+      </figcaption>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link{% if page.title == "Posts" %} active" aria-current="page{% endif %}" href="{% if page.title == "" %}#{% else %}{{ site.url }}/{% endif %}">Posts</a>
+        <a class="nav-link{% if page.title == "Archive" %} active" aria-current="page{% endif %}" href="{% if page.title == "Archive" %}#{% else %}{{ site.url }}/archive/{% endif %}">Archive</a>
+        <a class="nav-link{% if page.title == "About" %} active" aria-current="page{% endif %}" href="{% if page.title == "About" %}#{% else %}{{ site.url }}/about/{% endif %}">About</a>
+      </div>
+    </div>
+  </div>
+</nav>

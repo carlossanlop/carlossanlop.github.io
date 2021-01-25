@@ -1,3 +1,29 @@
-theme: jekyll-theme-hacker
-title: [Blog of Carlos Sanchez]
-description: [Software developer engineer for the .NET Libraries team]
+title: "Blog of Carlos Sanchez"
+description: "Sharing my learnings."
+github_username: carlossanlop
+twitter_username: foo_fighter
+linkedin_url: https://www.linkedin.com/in/carlos-s-3634b228/
+
+markdown: kramdown
+markdown_ext: "markdown,md"
+highlighter: rouge
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+plugins:
+  - jekyll-paginate-v2
+
+permalink: /:year/:month/:day/:title
+
+pagination:
+  enabled: true
+  debug: true
+  per_page: 2
+  permalink: '/:num/'
+  title: ':title'
+
+sass:
+    style: :compressed
+    sass_dir: assets/css/

@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/assets/favicon.ico" />  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/style.css" type="text/css">
+
+    <title>Blog of Carlos Sanchez - How to remotely debug a Unix .NET process using VS Code</title>
+  </head>
+  <body><nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <blockquote class="blockquote">Blog of Carlos Sanchez</blockquote>
+      <figcaption class="blockquote-footer">
+        <em>Sharing my learnings.</em>
+      </figcaption>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/">Posts</a>
+        <a class="nav-link" href="/archive/">Archive</a>
+        <a class="nav-link" href="/about/">About</a>
+      </div>
+    </div>
+  </div>
+</nav><div class="container">
+      <h2 class="text-center">How to remotely debug a Unix .NET process using VS Code</h2>
+      
+      <p class="small text-center"><em>2021/01/26</em></p>
+      
+    </div>
+
+    <hr />
+
+    <div class="container">
+      <p>
+  <a class="btn btn-primary" href="javascript: window.history.back()">Go back</a>
+</p>
+
+
+
+<h2 id="attaching-to-a-process">Attaching to a process</h2>
+
+<p>When I want to run a remote process from the SSH or WSL console, and then attach VS Code to that process, I add the this configuration to the remote VS Code <code class="language-plaintext highlighter-rouge">launch.json</code> file (which happens to be the default “attach” configuration for a .NET Core process):</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.2.0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"configurations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">".NET Core Attach"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coreclr"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="s2">"attach"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"processId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${command:pickProcess}"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Then I add this code to my .NET program right where I want the debugger to get attached:</p>
+
+<div class="language-cs highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span> <span class="p">(!</span><span class="n">System</span><span class="p">.</span><span class="n">Diagnostics</span><span class="p">.</span><span class="n">Debugger</span><span class="p">.</span><span class="n">IsAttached</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Console</span><span class="p">.</span><span class="nf">WriteLine</span><span class="p">(</span><span class="s">$"Attach to </span><span class="p">{</span><span class="n">Environment</span><span class="p">.</span><span class="n">ProcessId</span><span class="p">}</span><span class="s">"</span><span class="p">);</span>
+    <span class="n">System</span><span class="p">.</span><span class="n">Threading</span><span class="p">.</span><span class="n">Thread</span><span class="p">.</span><span class="nf">Sleep</span><span class="p">(</span><span class="m">1000</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">System</span><span class="p">.</span><span class="n">Diagnostics</span><span class="p">.</span><span class="n">Debugger</span><span class="p">.</span><span class="nf">Break</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>Finally, I build and run the process, wait for the message with the process ID to start showing up, then I hit Control+Shift+D to switch to the “Run” extension, make sure the dropdown at the top has “.NET Core Attach” selected, then press F5, and finally select the process with that ID from the dropdown list that shows up.</p>
+
+<h2 id="runtime-unit-tests">Runtime unit tests</h2>
+
+<p>When running unit tests from the console in the runtime repo, you use <code class="language-plaintext highlighter-rouge">dotnet build /t:Test &lt;TestProjectFile&gt;.csproj</code>.</p>
+
+<p>If you try to add a VS Code configuration that runs that process and attaches to it, you won’t be able to step into the unit test code.</p>
+
+<p>If you look at output of that command, you’ll notice that the unit tests are executed by a forked process with a much different command and arguments. So if you create a configuration that executes that command directly, you’ll be able to step into the unit test code.</p>
+
+<p>Let’s assume you want to run a specific FileSystem unit test in your remote SSH or WSL machine. You would run the following command in the console, which would generate the output below:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>carlos@Carloss-MacBook-Pro &gt; ~/Public/repos/runtime/src/libraries/System.IO.FileSystem/tests &gt; IsHidden2 &gt;
+❯ dotnet build /t:Test ./System.IO.FileSystem.Tests.csproj /p:XUnitMethodName=System.IO.Tests.FileInfo_Exists.NonExistentFile
+Microsoft (R) Build Engine version 16.8.3+39993bd9d for .NET
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+...
+  System.IO.FileSystem.Tests -&gt; /Users/carlos/Public/repos/runtime/artifacts/bin/System.IO.FileSystem.Tests/net6.0-Unix-Debug/System.IO.FileSystem.Tests.dll
+  ----- start Tue Jan 26 16:59:01 PST 2021 =============== To repro directly: =====================================================
+  pushd /Users/carlos/Public/repos/runtime/artifacts/bin/System.IO.FileSystem.Tests/net6.0-Unix-Debug
+  /Users/carlos/Public/repos/runtime/artifacts/bin/testhost/net6.0-OSX-Debug-x64/dotnet exec --runtimeconfig System.IO.FileSystem.Tests.runtimeconfig.json --depsfile System.IO.FileSystem.Tests.deps.json xunit.console.dll System.IO.FileSystem.Tests.dll -xml testResults.xml -nologo -method System.IO.Tests.FileInfo_Exists.NonExistentFile -notrait category=OuterLoop -notrait category=failing
+  popd
+  ===========================================================================================================
+  ~/Public/repos/runtime/artifacts/bin/System.IO.FileSystem.Tests/net6.0-Unix-Debug ~/Public/repos/runtime/src/libraries/System.IO.FileSystem/tests
+    Discovering: System.IO.FileSystem.Tests (method display = ClassAndMethod, method display options = None)
+    Discovered:  System.IO.FileSystem.Tests (found 1 of 3316 test case)
+    Starting:    System.IO.FileSystem.Tests (parallel test collections = on, max threads = 8)
+    Finished:    System.IO.FileSystem.Tests
+  === TEST EXECUTION SUMMARY ===
+     System.IO.FileSystem.Tests  Total: 1, Errors: 0, Failed: 0, Skipped: 0, Time: 0.159s
+  ~/Public/repos/runtime/src/libraries/System.IO.FileSystem/tests
+  ----- end Tue Jan 26 16:59:03 PST 2021 ----- exit code 0 ----------------------------------------------------------
+  exit code 0 means Exited Successfully
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:11.21
+</code></pre></div></div>
+
+<p>The <em>real</em> commands are those executed after the <em>start</em> line. The header even says “To repro directly”. So I extracted that command and put it in the remote machine’s launch.json file (right after the launch configuration mentioned in the previous section):</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.2.0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"configurations"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">".NET Core Attach"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coreclr"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="s2">"attach"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"processId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${command:pickProcess}"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Test System.IO.FileSystem"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"coreclr"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="s2">"launch"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"preLaunchTask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Build System.IO.FileSystem"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"program"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${workspaceFolder}/artifacts/bin/testhost/net6.0-OSX-Debug-x64/dotnet"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Slightly</span><span class="w"> </span><span class="err">different</span><span class="w"> </span><span class="err">location</span><span class="w"> </span><span class="err">than</span><span class="w"> </span><span class="err">cwd</span><span class="w"> </span><span class="err">below</span><span class="w">
+            </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"exec"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"--runtimeconfig"</span><span class="p">,</span><span class="w"> </span><span class="s2">"System.IO.FileSystem.Tests.runtimeconfig.json"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">These</span><span class="w"> </span><span class="err">files</span><span class="w"> </span><span class="err">are</span><span class="w"> </span><span class="err">located</span><span class="w"> </span><span class="err">in</span><span class="w"> </span><span class="err">cwd</span><span class="w">
+                </span><span class="s2">"--depsfile"</span><span class="p">,</span><span class="w"> </span><span class="s2">"System.IO.FileSystem.Tests.deps.json"</span><span class="p">,</span><span class="w"> </span><span class="s2">"xunit.console.dll"</span><span class="p">,</span><span class="w"> </span><span class="s2">"System.IO.FileSystem.Tests.dll"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"-xml"</span><span class="p">,</span><span class="w"> </span><span class="s2">"testResults.xml"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"-nologo"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"-notrait"</span><span class="p">,</span><span class="w"> </span><span class="s2">"category=OuterLoop"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"-notrait"</span><span class="p">,</span><span class="w"> </span><span class="s2">"category=failing"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"-method"</span><span class="p">,</span><span class="w"> </span><span class="s2">"System.IO.Tests.FileInfo_Exists.NonExistentFile"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nl">"cwd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${workspaceFolder}/artifacts/bin/System.IO.FileSystem.Tests/net6.0-Unix-Debug"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"stopAtEntry"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"justMyCode"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"console"</span><span class="p">:</span><span class="w"> </span><span class="s2">"internalConsole"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"suppressJITOptimizations"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"enableStepFiltering"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">${workspaceFolder}</code> expects that you are working on the <code class="language-plaintext highlighter-rouge">runtime</code> root folder.</p>
+
+<p>Notice the <code class="language-plaintext highlighter-rouge">preLaunchTask</code> is the build command. I added it in the tasks.json file:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2.0.0"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"tasks"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"label"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Build System.IO.FileSystem"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dotnet"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"shell"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="s2">"build"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"${workspaceFolder}/src/libraries/System.IO.FileSystem/src/System.IO.FileSystem.csproj"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"/property:GenerateFullPaths=true"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"/consoleloggerparameters:NoSummary"</span><span class="w">
+            </span><span class="p">],</span><span class="w">
+            </span><span class="nl">"group"</span><span class="p">:</span><span class="w"> </span><span class="s2">"build"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"presentation"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"reveal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"always"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"revealProblems"</span><span class="p">:</span><span class="w"> </span><span class="s2">"always"</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"problemMatcher"</span><span class="p">:</span><span class="w"> </span><span class="s2">"$msCompile"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Now you can press Control+Shift+D to switch to the Run extension, select “Test System.IO.FileSystem” from the dropdown list at the top, put a breakpoint at the beginning of the unit test, then press F5. The execution will build, then run the unit test, and will stop at your breakpoint.</p>
+
+
+
+    </div>
+    
+    <hr /><div class="container">
+  <ul class="nav justify-content-center">
+    <li class="nav-item">
+      <a class="nav-link" target="_blank" href="https://github.com/carlossanlop">GitHub</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" target="_blank" href="https://twitter.com/foo_fighter">Twitter</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" target="_blank" href="https://www.linkedin.com/in/carlos-s-3634b228/">LinkedIn</a>
+    </li>
+  </ul>
+</div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  </body>
+</html>

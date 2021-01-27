@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/assets/favicon.ico" />  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel="stylesheet" href="/assets/css/style.css" type="text/css">
+
+    <title>Blog of Carlos Sanchez - Git Tricks</title>
+  </head>
+  <body><nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <blockquote class="blockquote">Blog of Carlos Sanchez</blockquote>
+      <figcaption class="blockquote-footer">
+        <em>Sharing my learnings.</em>
+      </figcaption>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link" href="/">Posts</a>
+        <a class="nav-link" href="/archive/">Archive</a>
+        <a class="nav-link" href="/about/">About</a>
+      </div>
+    </div>
+  </div>
+</nav><div class="container">
+      <h2 class="text-center">Git Tricks</h2>
+      
+      <p class="small text-center"><em>2021/01/26</em></p>
+      
+    </div>
+
+    <hr />
+
+    <div class="container">
+      <p>
+  <a class="btn btn-primary" href="javascript: window.history.back()">Go back</a>
+</p>
+
+
+
+<h3 id="change-a-commits-author-email">Change a commit’s author email</h3>
+
+<ol>
+  <li>
+    <p>Take note of the commit number(s) for which you want to change the author’s email.</p>
+  </li>
+  <li>
+    <p>Rebase interactively until one commit before the oldest one you want to modify.</p>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git rebase -i &lt;commit&gt;
+</code></pre></div></div>
+
+<ol>
+  <li>
+    <p>In the text editor, find the commit numbers you want to amend, and change the <code class="language-plaintext highlighter-rouge">pick</code> prefix for <code class="language-plaintext highlighter-rouge">edit</code>. Save the file and exit the editor.</p>
+  </li>
+  <li>
+    <p>Execute these two commands as many times as commits you want to amend:</p>
+  </li>
+</ol>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git rebase --continue
+git commit --amend --no-edit --author="New name &lt;new@email.com&gt;"
+</code></pre></div></div>
+
+<p>You’ll know when to stop when you get a message like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Successfully rebased and updated refs/heads/RRS.
+</code></pre></div></div>
+
+<h3 id="hide-your-email-and-use-the-github-one">Hide your email and use the GitHub one</h3>
+
+<p>GitHub allows you to specify a GitHub domain email for the author, to avoid showing your own personal or corporate email.</p>
+
+<p>The address can be located in <a href="https://github.com/settings/emails">https://github.com/settings/emails</a> and it has the format <code class="language-plaintext highlighter-rouge">&lt;RandomNumber&gt;+&lt;YourAlias&gt;@users.noreply.github.com</code>.</p>
+
+<p>Copy that email address (optionally, you can omit the <code class="language-plaintext highlighter-rouge">&lt;RandomNumber&gt;</code>), then execute:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config --global user.email "Your Name &lt;YourAlias&gt;@users.noreply.github.com"
+</code></pre></div></div>
+
+<p>In the same settings page, you can prevent showing your personal or corporate email if you check the option:</p>
+
+<blockquote>
+  <p>Keep my email addresses private</p>
+</blockquote>
+
+<p>You can also prevent accidentally pushing commits that contain your private email address if you check the option:</p>
+
+<blockquote>
+  <p>Block command line pushes that expose my email</p>
+</blockquote>
+
+
+
+    </div>
+    
+    <hr /><div class="container">
+  <ul class="nav justify-content-center">
+    <li class="nav-item">
+      <a class="nav-link" target="_blank" href="https://github.com/carlossanlop">GitHub</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" target="_blank" href="https://twitter.com/foo_fighter">Twitter</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" target="_blank" href="https://www.linkedin.com/in/carlos-s-3634b228/">LinkedIn</a>
+    </li>
+  </ul>
+</div><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  </body>
+</html>

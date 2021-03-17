@@ -1,6 +1,6 @@
 ---
 layout:  post
-title:   "Howo to build System.Private.CoreLib code"
+title:   "How to build System.Private.CoreLib code"
 summary: "Steps to build code that lives in the middle subset."
 date:    2021-02-09 19:36:00 -0800
 categories: all

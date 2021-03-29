@@ -10,6 +10,6 @@ The final product looked like this:
 
 | Lights off | Lights on |
 |-|-|
-|<img src="https://github.com/carlossanlop/Electronics/raw/main/shelf_lights/off.jpg" width="300" />|<img src="https://github.com/carlossanlop/Electronics/raw/main/shelf_lights/on.jpg" width="300" />|
+|<img src="https://github.com/ChayoteJarocho/Electronics/raw/main/shelf_lights/off.jpg" width="300" />|<img src="https://github.com/ChayoteJarocho/Electronics/raw/main/shelf_lights/on.jpg" width="300" />|
 
-I published the full instructions [in my electronics repo](https://github.com/carlossanlop/Electronics/blob/main/shelf_lights/README.md).
+I published the full instructions [in my electronics repo](https://github.com/ChayoteJarocho/Electronics/blob/main/shelf_lights/README.md).

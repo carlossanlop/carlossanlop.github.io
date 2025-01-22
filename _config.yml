@@ -1,8 +1,8 @@
 title: "Blog of Carlos Sanchez"
 description: "Sharing my learnings."
 github_username: carlossanlop
-twitter_username: foo_fighter
-linkedin_url: https://www.linkedin.com/in/carlos-s-3634b228/
+bluesky_username: chayotejarocho.space
+linkedin_username: carlossanlop
 
 markdown: kramdown
 markdown_ext: "markdown,md"
